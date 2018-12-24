@@ -1,19 +1,16 @@
-CC=g++ # указываем компилятор
-LDFLAGS= # флаги линковщика
-CFLAGS=-c  # флаги компилятора
-SOURCES= main.cpp complex.cpp # список исходников
-OBJECTS=$(SOURCES:.c=.o)
-TARGET= complex # имя бинарника
+CC=g++                  #переменная (макрос) с именем компилятора
+CFLAGS=-c -std=c99      #переменная с перечислением флагов
+OUTPUT=complex          #имя исполняемого файла
 
-all: $(TARGET)
+goal: main.o complex.o
+        $(CC) main.o complex.o -o $(OUTPUT)
 
-$(TARGET): $(OBJECTS)
-        $(CC) $(LDFLAGS) $(OBJECTS) -o $@
+main.o: main.cpp
+        $(CC) main.cpp $(CFLAGS)
 
-%.o: %.cpp
-        $(CC) $(CFLAGS) $<
-
-include $(wildcard   *.d)
+complex.o: complex.cpp
+        $(CC) complex.cpp $(CFLAGS)
 
 clean:
-        rm *.o *.d $(TARGET)
+        rm -rf *.o $(OUTPUT)
+
